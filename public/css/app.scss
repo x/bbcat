@@ -1,3 +1,5 @@
+@import 'variables';
+
 body {
     margin: 0px;
     padding: 0px;
@@ -15,7 +17,7 @@ header {
         font-family: Lemon;
         font-weight: normal;
         letter-spacing: -1px;
-        color: #333;
+        color: $black;
     }
 }
 
@@ -27,11 +29,22 @@ header {
         radius: 5px;
         width: 3px;
         style: solid;
-        color: #333
+        color: $black;
     }
     box-shadow: 0px 3px 5px rgba(3, 3, 3, .5) inset;
     background: {
         image: url('../img/noise.png');
         color: #BBCA9A;
+    }
+}
+
+.control {
+    margin-top: 20px;
+    text-align: center;
+
+    .button {
+        height: 50px;
+        width: 50px;
+        border-radius: 30px;
     }
 }

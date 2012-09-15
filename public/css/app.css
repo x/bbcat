@@ -11,7 +11,7 @@ header {
     font-family: Lemon;
     font-weight: normal;
     letter-spacing: -1px;
-    color: #333; }
+    color: #444444; }
 
 #display {
   box-sizing: border-box;
@@ -20,7 +20,15 @@ header {
   border-radius: 5px;
   border-width: 3px;
   border-style: solid;
-  border-color: #333333;
+  border-color: #444444;
   box-shadow: 0px 3px 5px rgba(3, 3, 3, 0.5) inset;
   background-image: url("../img/noise.png");
   background-color: #BBCA9A; }
+
+.control {
+  margin-top: 20px;
+  text-align: center; }
+  .control .button {
+    height: 50px;
+    width: 50px;
+    border-radius: 30px; }
