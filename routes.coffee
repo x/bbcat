@@ -2,18 +2,13 @@ module.exports = (app, models)->
   app.get '/', (req, res)->
     res.render('index.jade')
 
-  app.post '/new/:name', (req, res)->
-    response
-    models.pet.findOne name: req.params.name, (err, doc)->
+  app.get '/new/:name', (req, res)->
+    console.log models
+    models.pets.findOne name: req.params.name, (err, doc)->
       if err?
-        response =
-          status: 'Find Error'
-          data: err
         throw err
       else if doc?
-        response =
-          status: 'Name Taken'
-          data: doc
+        res.send(500, 'name taken')
       else
         now = new Date()
         newPet = new models.pets
@@ -37,6 +32,7 @@ module.exports = (app, models)->
     catName = req.params.catName
     models.pets.findOne name: req.params.name, (err, doc)->
       if err?
-        res.send(404, 'yo cat aint here')
+        res.render('pet.jade')
+        #res.send(404, 'yo cat aint here')
       else
         res.render('pet.jade', pet: doc)
