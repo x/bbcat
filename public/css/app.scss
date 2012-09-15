@@ -37,8 +37,15 @@ header {
     }
     box-shadow: 0px 3px 5px rgba(3, 3, 3, .5) inset;
     background: {
-        image: url('../img/noise.png');
+        image: url('../img/living-room.png');
         color: #BBCA9A;
+    }
+
+    #grid {
+        margin: 60px auto 0px auto;
+        background-image: url('../img/grid.png');
+        width: 255px;
+        height: 127px;
     }
 }
 

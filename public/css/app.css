@@ -25,8 +25,13 @@ header {
   border-style: solid;
   border-color: #444444;
   box-shadow: 0px 3px 5px rgba(3, 3, 3, 0.5) inset;
-  background-image: url("../img/noise.png");
+  background-image: url("../img/living-room.png");
   background-color: #BBCA9A; }
+  #display #grid {
+    margin: 60px auto 0px auto;
+    background-image: url("../img/grid.png");
+    width: 255px;
+    height: 127px; }
 
 .control {
   margin-top: 20px;
