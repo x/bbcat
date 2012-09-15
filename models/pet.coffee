@@ -1,4 +1,4 @@
-module.exports = (mongoose)->
+module.exports = (app, mongoose)->
   
   petSchema = new mongoose.Schema
     name: String
@@ -16,38 +16,38 @@ module.exports = (mongoose)->
   petSchema.methods = 
     daysOld: ->
       now = new Date()
-      Math.floor((now - this.birthday)/msInDay)
+      Math.floor((now - @birthday)/msInDay)
 
     update: -> 
       now = new Date()
-      timeSincePoop = this.lastPoopAt - now
-      timeSinceFed = this.lastFedAt - now
-      timeSincePet = this.lastPetAt - now
-      updateHunger(timeSinceFed)
-      updatePoop(timeSincePoop)
-      updateHealth(timeSincePoop)
-      updateHappy(timeSincePet)
+      timeSincePoop = @lastPoopAt - now
+      timeSinceFed = @lastFedAt - now
+      timeSincePet = @lastPetAt - now
+      @updateHunger(timeSinceFed)
+      @updatePoop(timeSincePoop)
+      @updateHealth(timeSincePoop)
+      @updateHappy(timeSincePet)
       
     updateHunger: (timeSinceFed)->
-      this.hunger = 100 - (timeSinceFed/msInDay)*100
+      @hunger = 100 - (timeSinceFed/msInDay)*100
       
     updatePoop: (timeSincePoop)->
-      this.poop = false
+      @poop = false
       if timeSincePoop > msInDay/3
-        this.poop = true
+        @poop = true
 
     updateHealth: (timeSincePoop)->
-      this.health = 100 - (timeSincePoop/msInDay)*50
+      @health = 100 - (timeSincePoop/msInDay)*50
     
     updateHappy: (timeSincePet)->
-      fedHappieness = this.hunger
+      fedHappieness = @hunger
       petHappieness = (timeSincePet/msInDay)*100
-      if this.poop
+      if @poop
         cleanHappieness = 100
       else
         cleanHappieness = 0
-      this.happy = 100 - fedHappienss/4 + petHappieness/2 + cleanHappieness/4
+      @happy = 100 - fedHappieness/4 + petHappieness/2 + cleanHappieness/4
 
-  this.model = mongoose.model('pets', petSchema)
+  @model = app.db.model('pets', petSchema)
 
   return this
