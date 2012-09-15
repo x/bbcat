@@ -31,4 +31,7 @@ header {
   .control .button {
     height: 50px;
     width: 50px;
-    border-radius: 30px; }
+    border-width: 3px;
+    border-radius: 30px;
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.5) inset;
+    background-image: url("../img/noise.png"); }
