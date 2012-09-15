@@ -1,9 +1,10 @@
 # app
-app = require('express')()
+express = require('express')
+app = express()
 app.mongoose = require('mongoose')
 
 # config
-require('./config')
+require('./config')(app, express)
 
 # models
 models = {}

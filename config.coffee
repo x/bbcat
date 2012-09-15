@@ -1,4 +1,4 @@
-module.exports = (app, express, mongoose)->
+module.exports = (app, express)->
   config = this
   app.set('views', __dirname + '/views')
   app.set('view engine', 'jade')
