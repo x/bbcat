@@ -29,10 +29,11 @@ module.exports = (app, models)->
             res.redirect("/c/#{req.params.name}")
     
   app.get '/c/:catName', (req, res)->
+    res.render('pet.jade')
     catName = req.params.catName
-    models.pets.findOne name: req.params.name, (err, doc)->
-      if err?
-        res.render('pet.jade')
-        #res.send(404, 'yo cat aint here')
-      else
-        res.render('pet.jade', pet: doc)
+    #  models.pets.findOne name: req.params.name, (err, doc)->
+    #    if err?
+    #      res.render('pet.jade')
+    #      #res.send(404, 'yo cat aint here')
+    #    else
+    #      res.render('pet.jade', pet: doc)
