@@ -1,23 +1,13 @@
-!!!
-head
-  link(rel='stylesheet', href='/public/css/foundation/stylesheets/foundation.css')
-  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lemon')
-  link(rel='stylesheet', href='/public/css/app.css')
-  script(src='/public/js/foundation.min.js')
-  meta(name='viewport', content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0')/
-body
+extends layout
+block content
+  #display
+    #grid
   .row
-    .six.columns.centered
-      header
-        h1 bbcat
-      #display
-        #grid
-      .row
-        .three.columns.control
-          .button.alert
-        .three.columns.control
-          .button.alert
-        .three.columns.control
-          .button.alert
-        .three.columns.control
-          .button.alert
+    .three.columns.control
+      .button.alert
+    .three.columns.control
+      .button.alert
+    .three.columns.control
+      .button.alert
+    .three.columns.control
+      .button.alert
