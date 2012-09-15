@@ -3,11 +3,11 @@ app = require('express')()
 app.mongoose = require('mongoose')
 
 # config
-require('config')
+require('./config')
 
 # models
 models = {}
-models.cats = require('./models/cat')(app.mongoose).model
+models.cats = require('./models/pet')(app.mongoose).model
 
 # routes
 require('./routes')(app, models)
