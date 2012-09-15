@@ -4,6 +4,6 @@ module.exports = (app, express)->
   app.set('view engine', 'jade')
   app.use('/public', express.static(__dirname + '/public'))
 
-  app.mongoose.connect('mongodb://batman:robin@alex.mongohq.com:10066/bbcats')
+  app.db = app.mongoose.createConnection('mongodb://batman:robin@alex.mongohq.com:10066/bbcats')
 
   return config
