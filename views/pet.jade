@@ -1,10 +1,13 @@
 !!!
 head
+  meta(name='viewport', content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0')
   link(rel='stylesheet', href='/public/css/foundation/stylesheets/foundation.css')
   link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lemon')
   link(rel='stylesheet', href='/public/css/app.css')
   script(src='/public/js/foundation.min.js')
-  meta(name='viewport', content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0')/
+  script(type='text/javascript')
+      window.bb = {}
+      window.bb.pet = #{pet}
 body
   .row
     .six.columns.centered

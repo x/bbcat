@@ -3,7 +3,6 @@ module.exports = (app, models)->
     res.render('index.jade')
 
   app.get '/new/:name', (req, res)->
-    console.log models
     models.pets.findOne name: req.params.name, (err, doc)->
       if err?
         throw err
@@ -30,8 +29,9 @@ module.exports = (app, models)->
     
   app.get '/c/:catName', (req, res)->
     catName = req.params.catName
-    models.pets.findOne name: req.params.name, (err, doc)->
+    models.pets.findOne name: catName, (err, doc)->
       if err?
         res.send(404, 'yo cat aint here')
       else
+        doc.update()
         res.render('pet.jade', pet: doc)
