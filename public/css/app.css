@@ -27,8 +27,23 @@ header {
   box-shadow: 0px 3px 5px rgba(3, 3, 3, 0.5) inset;
   background-image: url("../img/living-room.png");
   background-color: #BBCA9A; }
+  #display .heart, #display .fish {
+    display: inline-block;
+    opacity: .1; }
+    #display .heart.active, #display .fish.active {
+      opacity: .8; }
+  #display .heart {
+    margin: 20px 0px 20px 14px;
+    width: 25px;
+    height: 23px;
+    background-image: url("/public/img/heart.png"); }
+  #display .fish {
+    margin: 20px 0px 20px 14px;
+    width: 25px;
+    height: 21px;
+    background-image: url("/public/img/fish.png"); }
   #display #grid {
-    margin: 60px auto 0px auto;
+    margin: 0px auto;
     background-image: url("../img/grid.png");
     width: 256px;
     height: 128px; }

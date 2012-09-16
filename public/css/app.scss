@@ -41,8 +41,31 @@ header {
         color: #BBCA9A;
     }
 
+    .heart, .fish {
+        display: inline-block;
+        opacity: .1;
+
+        &.active {
+            opacity: .8;
+        }
+    }
+
+    .heart {
+        margin: 20px 0px 20px 14px;
+        width: 25px;
+        height: 23px;
+        background-image: url('/public/img/heart.png');
+    }
+
+    .fish {
+        margin: 20px 0px 20px 14px;
+        width: 25px;
+        height: 21px;
+        background-image: url('/public/img/fish.png');
+    }
+
     #grid {
-        margin: 60px auto 0px auto;
+        margin: 0px auto;
         background-image: url('../img/grid.png');
         width: 256px;
         height: 128px;
