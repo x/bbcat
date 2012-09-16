@@ -55,14 +55,15 @@ module.exports = (app, models)->
         res.send(500, 'name taken')
       else
         now = new Date()
+        earlierToday = now - 21600000
         newPet = new models.pets
           name: req.body.name
           birthday: now
-          health: 100
+          health: 60
           lastCheckAt: now
           lastPoopAt: now
-          lastFedAt: now
-          lastPetAt: now
+          lastFedAt: earlierToday
+          lastPetAt: earlierToday
         newPet.update()
         newPet.save (err)->
           if err?

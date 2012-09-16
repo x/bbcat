@@ -42,7 +42,7 @@ $ ->
   px = 188
   py = 56
 
-  frame = 750
+  frame = 500
 
   delay = (ms, cb)-> setTimeout(cb, ms)
   delayInterval = (ms, cb)-> setInterval(cb, ms)
