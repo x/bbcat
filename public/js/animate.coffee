@@ -64,20 +64,6 @@ $ ->
   canvas.width = 256
   canvas.height = 128
   
-  getCoords = (e)->
-    if e.offsetX
-      return x: e.offsetX, y: e.offsetY
-    else
-      return x: e.pageX - cb_canvas.offsetLeft, y:e.pageY - cb_canvas.offsetTop
-  moveEventFunction = (e)->
-    if e.touches
-      for i in e.touches.length
-        window.bb.p = getCoords(e.touches[i - 1])
-    else
-      window.bb.p = getCoords(e)
-  canvas.ontouchmove = moveEventFunction
-  canvas.onmousemove = moveEventFunction
-
   ctx = canvas.getContext('2d')
   
   ctx.clear = -> 
@@ -112,15 +98,10 @@ $ ->
     sitIfNeeded(128, cb)
 
   sitIfNeeded = (x, cb)->
-    if Math.abs(window.bb.p.x - x+32) < 128
+    if window.bb.petme
       console.log 'pet the cat'
       ctx.clear()
       ctx.drawImage(images['cat-happy.png'], x, cy)
-      delay frame, cb
-    else if window.bb.isAngry
-      ctx.clear()
-      console.log 'cat is angry'
-      ctx.drawImage(images['cat-mad.png'], x, cy)
       delay frame, cb
     else
       cb()
