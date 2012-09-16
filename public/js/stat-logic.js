@@ -24,7 +24,7 @@
       console.log("pet has " + fishCount + " fish now");
       return $('.fish').each(function(i, elem) {
         if (i < fishCount) {
-          return elem.addClass('active');
+          return $(elem).addClass('active');
         }
       });
     };
@@ -35,7 +35,7 @@
       console.log("pet has " + heartCount + " fish now");
       return $('.heart').each(function(i, elem) {
         if (i < heartCount) {
-          return elem.addClass('active');
+          return $(elem).addClass('active');
         }
       });
     };
@@ -77,7 +77,9 @@
     };
     $('#feed').click(window.bb.feed);
     $('#heal').click(window.bb.heal);
-    return $('#clean').click(window.bb.clean);
+    $('#clean').click(window.bb.clean);
+    window.bb.fishUpdate();
+    return window.bb.heartUpdate();
   });
 
 }).call(this);

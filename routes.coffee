@@ -3,8 +3,8 @@ module.exports = (app, models)->
     res.render('index.jade')
  
   app.post '/feed', (req, res)->
-    console.log req
-    name = req.pet.name
+    console.log req.body
+    name = req.body.pet.name
     now = new Date()
     models.pets.findOne name: name, (err, doc)->
       unless err?
@@ -15,6 +15,7 @@ module.exports = (app, models)->
             res.send doc
 
   app.post '/heal', (req, res)->
+    console.log req.body
     name = req.body.pet.name
     now = new Date()
     models.pets.findOne name: name, (err, doc)->

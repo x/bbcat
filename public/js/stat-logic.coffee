@@ -18,7 +18,7 @@ $ ->
     console.log "pet has #{fishCount} fish now"
     $('.fish').each (i, elem)->
       if i < fishCount
-        elem.addClass('active')
+        $(elem).addClass('active')
 
   window.bb.heartUpdate = ->
     health = window.bb.pet.health
@@ -26,7 +26,7 @@ $ ->
     console.log "pet has #{heartCount} fish now"
     $('.heart').each (i, elem)->
       if i < heartCount
-        elem.addClass('active')
+        $(elem).addClass('active')
 
 
   # post stat updates
@@ -58,3 +58,7 @@ $ ->
   $('#feed').click(window.bb.feed)
   $('#heal').click(window.bb.heal)
   $('#clean').click(window.bb.clean)
+
+  # init current stats
+  window.bb.fishUpdate()
+  window.bb.heartUpdate()
