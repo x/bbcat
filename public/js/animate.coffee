@@ -1,4 +1,18 @@
 $ ->
+  if window.DeviceMotionEvent
+    console.log 'this browser supports devicemotion'
+    window.addEventListener 'devicemotion', (event)->
+      y = event.acceleration.y
+      z = event.acceleration.z
+      x = event.acceleration.x
+      console.log x, y, z
+      power = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
+      if power > 50
+        console.log 'the power was', power
+        window.bb.isAngry = true
+  else
+    console.log 'this browser does not support devicemotion'
+  
   domain = "#{document.location.origin}/public/img/"
   sources = [
     'cat.png'
@@ -15,17 +29,25 @@ $ ->
     'cat-walk2.png'
     'cat-walk1-right.png'
     'cat-walk2-right.png'
+    'poop.png'
+    'poop1.png'
+    'poop2.png'
+    'poop3.png'
   ]
   cx = 64
   cy = 0
   cwx = 32
   step = 16
 
+  px = 188
+  py = 56
+
   frame = 750
 
   delay = (ms, cb)-> setTimeout(cb, ms)
   delayInterval = (ms, cb)-> setInterval(cb, ms)
 
+  images = {}
   loadImages = (sources, images, cb)->
     loadedImages = 0
     numImages = 0
@@ -43,14 +65,21 @@ $ ->
   canvas.height = 128
   
   ctx = canvas.getContext('2d')
-  ctx.clear = -> ctx.clearRect(0, 0, 256, 128)
   
-  images = {}
+  ctx.clear = -> 
+    ctx.clearRect(0, 0, 256, 128)
+    if window.bb.pet.poop
+      ctx.drawImage(images['poop.png'], px, py)
   
   sitCenterFor = (count, cb)->
     ctx.clear()
     console.log 'sitting cat'
-    ctx.drawImage(images['cat.png'], cx, cy)
+    if window.bb.emotion() == 'sick'
+      ctx.drawImage(images['cat-sick.png'], cx, cy)
+    else if window.bb.emotion() == 'sad'
+      ctx.drawImage(images['cat-sad.png'], cx, cy)
+    else
+      ctx.drawImage(images['cat.png'], cx, cy)
     delay count*frame, cb
   
   sitCenter = (cb)->
@@ -58,6 +87,24 @@ $ ->
     console.log 'sitting cat'
     ctx.drawImage(images['cat.png'], cx, cy)
     delay frame, cb
+
+  sitCenterIfNeeded = (cb)->
+    sitIfNeeded(cx, cb)
+
+  sitLeftIfNeeded = (cb)->
+    sitIfNeeded(0, cb)
+
+  sitRightIfNeeded = (cb)->
+    sitIfNeeded(198, cb)
+
+  sitIfNeeded = (x, cb)->
+    if window.bb.isAngry
+      ctx.clear()
+      console.log 'cat is angry'
+      ctx.drawImage(images['cat-mad.png'], x, cy)
+      delay frame, cb
+    else
+      cb()
 
   walkCenterToLeft = (cb)->
     console.log 'walking center to left'
@@ -69,7 +116,8 @@ $ ->
       delay frame, ->
         ctx.clear()
         ctx.drawImage(images['cat-walk1.png'], cwx-2*step, cy)
-        delay frame, cb
+        delay frame, ->
+          sitLeftIfNeeded cb
 
   walkLeftToCenter = (cb)->
     console.log 'walking left to center'
@@ -81,7 +129,8 @@ $ ->
       delay frame, ->
         ctx.clear()
         ctx.drawImage(images['cat-walk2-right.png'], -1*step, cy)
-        delay frame, cb
+        delay frame, ->
+          sitCenterIfNeeded cb
 
   walkCenterToRight = (cb)->
     console.log 'walking center to left'
@@ -99,7 +148,8 @@ $ ->
           delay frame, ->
             ctx.clear()
             ctx.drawImage(images['cat-walk1-right.png'], step*4, cy)
-            delay frame, cb
+            delay frame, ->
+              sitRightIfNeeded cb
   
   walkRightToCenter = (cb)->
     console.log 'walking right to center'
@@ -117,7 +167,8 @@ $ ->
           delay frame, ->
             ctx.clear()
             ctx.drawImage(images['cat-walk2.png'], 3*step, cy)
-            delay frame, cb
+            delay frame, ->
+              sitCenterIfNeeded cb
    
   pace = (cb)->
     console.log 'pacing from center to center'
@@ -126,42 +177,67 @@ $ ->
         walkCenterToRight ->
           walkRightToCenter cb
 
+  paceOnLeft = (cb)->
+    console.log 'pacing from center to left to center'
+    walkCenterToLeft ->
+      walkLeftToCenter ->
+        walkCenterToLeft ->
+          walkLeftToCenter cb
+
   zzz = (cb)->
     console.log 'zzz'
     ctx.clear()
     ctx.drawImage(images['cat-curl.png'], cx, cy)
     ctx.drawImage(images['cat-curl-z1.png'], cx, cy)
     delay frame, ->
-      ctx.clear()
-      ctx.drawImage(images['cat-curl.png'], cx, cy)
-      ctx.drawImage(images['cat-curl-z2.png'], cx, cy)
-      delay frame, ->
+      sitCenterIfNeeded ->
         ctx.clear()
         ctx.drawImage(images['cat-curl.png'], cx, cy)
-        ctx.drawImage(images['cat-curl-z3.png'], cx, cy)
+        ctx.drawImage(images['cat-curl-z2.png'], cx, cy)
         delay frame, ->
-          ctx.clear()
-          ctx.drawImage(images['cat-curl.png'], cx, cy)
-          delay frame, cb
+          sitCenterIfNeeded ->
+            ctx.clear()
+            ctx.drawImage(images['cat-curl.png'], cx, cy)
+            ctx.drawImage(images['cat-curl-z3.png'], cx, cy)
+            delay frame, ->
+              sitCenterIfNeeded ->
+                ctx.clear()
+                ctx.drawImage(images['cat-curl.png'], cx, cy)
+                delay frame, ->
+                  setCenterIfNeeded cb
   
   sleep = (cb)->
     console.log 'sleeping'
     ctx.clear()
     ctx.drawImage(images['cat-curl.png'], cx, cy)
     delay frame*5, ->
-      ctx.clear()
-      zzz ->
+      sitCenterIfNeeded ->
+        ctx.clear()
         zzz ->
-          zzz cb
+          zzz ->
+            zzz cb
+
+  chooseCycle = ->
+    if window.bb.pet.poop
+      poopCycle()
+    else
+      cycle()
 
   cycle = ->
     ctx.clear()
     sitCenterFor 5, ->
       pace ->
         sitCenterFor 5, ->
-          sleep cycle
+          sleep chooseCycle
+
+  poopCycle = ->
+    ctx.clear()
+    sitCenterFor 5, ->
+      paceOnLeft ->
+        sitCenterFor 5, ->
+          sleep chooseCycle
 
   loadImages sources, images, ->
     console.log 'images loaded'
-    cycle()
+    chooseCycle()
     console.log 'done'

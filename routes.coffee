@@ -58,6 +58,7 @@ module.exports = (app, models)->
         newPet = new models.pets
           name: req.body.name
           birthday: now
+          health: 100
           lastCheckAt: now
           lastPoopAt: now
           lastFedAt: now

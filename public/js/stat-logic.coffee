@@ -1,6 +1,5 @@
 $ ->
   # graphical stat updates
-  console.log window
   window.bb.emotion = ->
     health = window.bb.pet.health
     happy = window.bb.pet.happy
@@ -11,7 +10,7 @@ $ ->
         return 'sad'
       else
         return 'happy'
-
+  
   window.bb.fishUpdate = ->
     hunger = window.bb.pet.hunger
     fishCount = Math.round(hunger/20)

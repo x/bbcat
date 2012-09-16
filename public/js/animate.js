@@ -2,13 +2,32 @@
 (function() {
 
   $(function() {
-    var canvas, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, images, loadImages, pace, sitCenter, sitCenterFor, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
+    var canvas, chooseCycle, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, images, loadImages, pace, paceOnLeft, poopCycle, px, py, sitCenter, sitCenterFor, sitCenterIfNeeded, sitIfNeeded, sitLeftIfNeeded, sitRightIfNeeded, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
+    if (window.DeviceMotionEvent) {
+      console.log('this browser supports devicemotion');
+      window.addEventListener('devicemotion', function(event) {
+        var power, x, y, z;
+        y = event.acceleration.y;
+        z = event.acceleration.z;
+        x = event.acceleration.x;
+        console.log(x, y, z);
+        power = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+        if (power > 50) {
+          console.log('the power was', power);
+          return window.bb.isAngry = true;
+        }
+      });
+    } else {
+      console.log('this browser does not support devicemotion');
+    }
     domain = "" + document.location.origin + "/public/img/";
-    sources = ['cat.png', 'cat-curl-z1.png', 'cat-curl-z2.png', 'cat-curl-z3.png', 'cat-curl.png', 'cat-dead.png', 'cat-happy.png', 'cat-mad.png', 'cat-sad.png', 'cat-sick.png', 'cat-walk1.png', 'cat-walk2.png', 'cat-walk1-right.png', 'cat-walk2-right.png'];
+    sources = ['cat.png', 'cat-curl-z1.png', 'cat-curl-z2.png', 'cat-curl-z3.png', 'cat-curl.png', 'cat-dead.png', 'cat-happy.png', 'cat-mad.png', 'cat-sad.png', 'cat-sick.png', 'cat-walk1.png', 'cat-walk2.png', 'cat-walk1-right.png', 'cat-walk2-right.png', 'poop.png', 'poop1.png', 'poop2.png', 'poop3.png'];
     cx = 64;
     cy = 0;
     cwx = 32;
     step = 16;
+    px = 188;
+    py = 56;
     frame = 750;
     delay = function(ms, cb) {
       return setTimeout(cb, ms);
@@ -16,6 +35,7 @@
     delayInterval = function(ms, cb) {
       return setInterval(cb, ms);
     };
+    images = {};
     loadImages = function(sources, images, cb) {
       var loadedImages, numImages, src, _i, _j, _len, _len1, _results;
       loadedImages = 0;
@@ -42,13 +62,21 @@
     canvas.height = 128;
     ctx = canvas.getContext('2d');
     ctx.clear = function() {
-      return ctx.clearRect(0, 0, 256, 128);
+      ctx.clearRect(0, 0, 256, 128);
+      if (window.bb.pet.poop) {
+        return ctx.drawImage(images['poop.png'], px, py);
+      }
     };
-    images = {};
     sitCenterFor = function(count, cb) {
       ctx.clear();
       console.log('sitting cat');
-      ctx.drawImage(images['cat.png'], cx, cy);
+      if (window.bb.emotion() === 'sick') {
+        ctx.drawImage(images['cat-sick.png'], cx, cy);
+      } else if (window.bb.emotion() === 'sad') {
+        ctx.drawImage(images['cat-sad.png'], cx, cy);
+      } else {
+        ctx.drawImage(images['cat.png'], cx, cy);
+      }
       return delay(count * frame, cb);
     };
     sitCenter = function(cb) {
@@ -56,6 +84,25 @@
       console.log('sitting cat');
       ctx.drawImage(images['cat.png'], cx, cy);
       return delay(frame, cb);
+    };
+    sitCenterIfNeeded = function(cb) {
+      return sitIfNeeded(cx, cb);
+    };
+    sitLeftIfNeeded = function(cb) {
+      return sitIfNeeded(0, cb);
+    };
+    sitRightIfNeeded = function(cb) {
+      return sitIfNeeded(198, cb);
+    };
+    sitIfNeeded = function(x, cb) {
+      if (window.bb.isAngry) {
+        ctx.clear();
+        console.log('cat is angry');
+        ctx.drawImage(images['cat-mad.png'], x, cy);
+        return delay(frame, cb);
+      } else {
+        return cb();
+      }
     };
     walkCenterToLeft = function(cb) {
       console.log('walking center to left');
@@ -67,7 +114,9 @@
         return delay(frame, function() {
           ctx.clear();
           ctx.drawImage(images['cat-walk1.png'], cwx - 2 * step, cy);
-          return delay(frame, cb);
+          return delay(frame, function() {
+            return sitLeftIfNeeded(cb);
+          });
         });
       });
     };
@@ -81,7 +130,9 @@
         return delay(frame, function() {
           ctx.clear();
           ctx.drawImage(images['cat-walk2-right.png'], -1 * step, cy);
-          return delay(frame, cb);
+          return delay(frame, function() {
+            return sitCenterIfNeeded(cb);
+          });
         });
       });
     };
@@ -101,7 +152,9 @@
             return delay(frame, function() {
               ctx.clear();
               ctx.drawImage(images['cat-walk1-right.png'], step * 4, cy);
-              return delay(frame, cb);
+              return delay(frame, function() {
+                return sitRightIfNeeded(cb);
+              });
             });
           });
         });
@@ -123,7 +176,9 @@
             return delay(frame, function() {
               ctx.clear();
               ctx.drawImage(images['cat-walk2.png'], 3 * step, cy);
-              return delay(frame, cb);
+              return delay(frame, function() {
+                return sitCenterIfNeeded(cb);
+              });
             });
           });
         });
@@ -139,23 +194,41 @@
         });
       });
     };
+    paceOnLeft = function(cb) {
+      console.log('pacing from center to left to center');
+      return walkCenterToLeft(function() {
+        return walkLeftToCenter(function() {
+          return walkCenterToLeft(function() {
+            return walkLeftToCenter(cb);
+          });
+        });
+      });
+    };
     zzz = function(cb) {
       console.log('zzz');
       ctx.clear();
       ctx.drawImage(images['cat-curl.png'], cx, cy);
       ctx.drawImage(images['cat-curl-z1.png'], cx, cy);
       return delay(frame, function() {
-        ctx.clear();
-        ctx.drawImage(images['cat-curl.png'], cx, cy);
-        ctx.drawImage(images['cat-curl-z2.png'], cx, cy);
-        return delay(frame, function() {
+        return sitCenterIfNeeded(function() {
           ctx.clear();
           ctx.drawImage(images['cat-curl.png'], cx, cy);
-          ctx.drawImage(images['cat-curl-z3.png'], cx, cy);
+          ctx.drawImage(images['cat-curl-z2.png'], cx, cy);
           return delay(frame, function() {
-            ctx.clear();
-            ctx.drawImage(images['cat-curl.png'], cx, cy);
-            return delay(frame, cb);
+            return sitCenterIfNeeded(function() {
+              ctx.clear();
+              ctx.drawImage(images['cat-curl.png'], cx, cy);
+              ctx.drawImage(images['cat-curl-z3.png'], cx, cy);
+              return delay(frame, function() {
+                return sitCenterIfNeeded(function() {
+                  ctx.clear();
+                  ctx.drawImage(images['cat-curl.png'], cx, cy);
+                  return delay(frame, function() {
+                    return setCenterIfNeeded(cb);
+                  });
+                });
+              });
+            });
           });
         });
       });
@@ -165,27 +238,46 @@
       ctx.clear();
       ctx.drawImage(images['cat-curl.png'], cx, cy);
       return delay(frame * 5, function() {
-        ctx.clear();
-        return zzz(function() {
+        return sitCenterIfNeeded(function() {
+          ctx.clear();
           return zzz(function() {
-            return zzz(cb);
+            return zzz(function() {
+              return zzz(cb);
+            });
           });
         });
       });
+    };
+    chooseCycle = function() {
+      if (window.bb.pet.poop) {
+        return poopCycle();
+      } else {
+        return cycle();
+      }
     };
     cycle = function() {
       ctx.clear();
       return sitCenterFor(5, function() {
         return pace(function() {
           return sitCenterFor(5, function() {
-            return sleep(cycle);
+            return sleep(chooseCycle);
+          });
+        });
+      });
+    };
+    poopCycle = function() {
+      ctx.clear();
+      return sitCenterFor(5, function() {
+        return paceOnLeft(function() {
+          return sitCenterFor(5, function() {
+            return sleep(chooseCycle);
           });
         });
       });
     };
     return loadImages(sources, images, function() {
       console.log('images loaded');
-      cycle();
+      chooseCycle();
       return console.log('done');
     });
   });
