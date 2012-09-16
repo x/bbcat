@@ -9,7 +9,7 @@ module.exports = (app, models)->
       unless err?
         doc.lastFedAt = now
         doc.update()
-        doc.save(err)->
+        doc.save (err)->
           unless err?
             res.send doc
 
@@ -19,7 +19,7 @@ module.exports = (app, models)->
     models.pets.findOne name: name, (err, doc)->
       unless err?
         doc.updateHealth()
-        doc.save(err)->
+        doc.save (err)->
           unless err?
             res.send doc
 
@@ -30,7 +30,7 @@ module.exports = (app, models)->
       unless err?
         doc.lastCleanAt = now
         doc.update()
-        doc.save(err)->
+        doc.save (err)->
           unless err?
             res.send doc
 
@@ -41,7 +41,7 @@ module.exports = (app, models)->
       unless err?
         doc.lastPetAt = now
         doc.update()
-        doc.save(err)->
+        doc.save (err)->
           unless err?
             res.send doc
   
