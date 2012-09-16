@@ -48,13 +48,13 @@ module.exports = (app, mongoose)->
       @updateHappy(timeSincePet)
       
     updateHunger: (timeSinceFed)->
-      @hunger = 100 - (timeSinceFed/msInDay)*100*scale
+      @hunger = Math.max(100 - (timeSinceFed/msInDay)*100*scale, 0)
       
     updatePoop: (timeSincePoop)->
       @poop = false
       if timeSincePoop > msInDay/(3*scale)
         @poop = true
-        @health = 100 - (timeSincePoop/msInDay)*50*scale
+        @health = Math.max(100 - (timeSincePoop/msInDay)*50*scale, 0)
 
     updateHealth: (timeSincePoop)->
       unless @poop
@@ -62,12 +62,12 @@ module.exports = (app, mongoose)->
     
     updateHappy: (timeSincePet)->
       fedSadness = 100 - @hunger
-      petSadness = (timeSincePet/msInDay)*100*5*scale
+      petSadness = Math.min((timeSincePet/msInDay)*100*5*scale, 100)
       if @poop
         cleanSadness = 100
       else
         cleanSadness = 0
-      @happy = 100 - fedSadness/4 - petSadness/2 - cleanSadness/4
+      @happy = Math.max(100 - fedSadness/4 - petSadness/2 - cleanSadness/4, 0)
 
   @model = app.db.model('pets', petSchema)
 

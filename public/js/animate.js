@@ -28,7 +28,7 @@
     step = 16;
     px = 188;
     py = 56;
-    frame = 750;
+    frame = 500;
     delay = function(ms, cb) {
       return setTimeout(cb, ms);
     };
