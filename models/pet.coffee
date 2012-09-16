@@ -11,7 +11,7 @@ module.exports = (app, mongoose)->
     name: String
     birthday: Date
     lastCheck: Date
-    lastPoopAt: Date
+    lastCleanAt: Date
     lastFedAt: Date
     lastPetAt: Date
     health: Number # 0 to 100
@@ -40,12 +40,11 @@ module.exports = (app, mongoose)->
 
     update: -> 
       now = new Date()
-      timeSincePoop = now - @lastPoopAt
+      timeSincePoop = now - @lastCleanAt
       timeSinceFed = now - @lastFedAt
       timeSincePet = now - @lastPetAt
       @updateHunger(timeSinceFed)
       @updatePoop(timeSincePoop)
-      @updateHealth(timeSincePoop)
       @updateHappy(timeSincePet)
       
     updateHunger: (timeSinceFed)->
@@ -55,9 +54,11 @@ module.exports = (app, mongoose)->
       @poop = false
       if timeSincePoop > msInDay/(3*scale)
         @poop = true
+        @health = 100 - (timeSincePoop/msInDay)*50*scale
 
     updateHealth: (timeSincePoop)->
-      @health = 100 - (timeSincePoop/msInDay)*50*scale
+      unless @poop
+        health = 100
     
     updateHappy: (timeSincePet)->
       fedSadness = 100 - @hunger
