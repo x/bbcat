@@ -46,18 +46,18 @@ $ ->
   ctx.clear = -> ctx.clearRect(0, 0, 256, 128)
   
   images = {}
-
-  sitCenter = (cb)->
-    ctx.clear()
-    console.log 'sitting cat'
-    ctx.drawImage(images['cat.png'], cx, cy)
-    delay frame, cb
-
+  
   sitCenterFor = (count, cb)->
     ctx.clear()
     console.log 'sitting cat'
     ctx.drawImage(images['cat.png'], cx, cy)
     delay count*frame, cb
+  
+  sitCenter = (cb)->
+    ctx.clear()
+    console.log 'sitting cat'
+    ctx.drawImage(images['cat.png'], cx, cy)
+    delay frame, cb
 
   walkCenterToLeft = (cb)->
     console.log 'walking center to left'
@@ -154,14 +154,14 @@ $ ->
         zzz ->
           zzz cb
 
-  cycle = (cb)->
+  cycle = ->
     ctx.clear()
     sitCenterFor 5, ->
       pace ->
         sitCenterFor 5, ->
-          sleep ->
+          sleep cycle
 
   loadImages sources, images, ->
     console.log 'images loaded'
-    cycle ->
-      console.log 'done'
+    cycle()
+    console.log 'done'
