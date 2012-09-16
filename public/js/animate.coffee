@@ -7,7 +7,7 @@ $ ->
       x = event.acceleration.x
       console.log x, y, z
       power = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
-      if power > 10
+      if power > 50
         console.log 'the power was', power
         window.bb.isAngry = true
   else
