@@ -57,6 +57,8 @@ $ ->
   $('#feed').click(window.bb.feed)
   $('#heal').click(window.bb.heal)
   $('#clean').click(window.bb.clean)
+  $('#petting').click ->
+    window.bb.petme = true
 
   # init current stats
   window.bb.fishUpdate()

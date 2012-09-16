@@ -77,6 +77,9 @@
     $('#feed').click(window.bb.feed);
     $('#heal').click(window.bb.heal);
     $('#clean').click(window.bb.clean);
+    $('#petting').click(function() {
+      return window.bb.petme = true;
+    });
     window.bb.fishUpdate();
     return window.bb.heartUpdate();
   });

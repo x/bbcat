@@ -35,7 +35,7 @@ $ ->
     'poop3.png'
   ]
   cx = 64
-  cy = 0
+  cy = 8
   cwx = 32
   step = 16
 
@@ -92,13 +92,14 @@ $ ->
     sitIfNeeded(cx, cb)
 
   sitLeftIfNeeded = (cb)->
-    sitIfNeeded(0, cb)
+    sitIfNeeded(-16, cb)
 
   sitRightIfNeeded = (cb)->
     sitIfNeeded(128, cb)
 
   sitIfNeeded = (x, cb)->
     if window.bb.petme
+      window.bb.petme = false
       console.log 'pet the cat'
       ctx.clear()
       ctx.drawImage(images['cat-happy.png'], x, cy)

@@ -23,7 +23,7 @@
     domain = "" + document.location.origin + "/public/img/";
     sources = ['cat.png', 'cat-curl-z1.png', 'cat-curl-z2.png', 'cat-curl-z3.png', 'cat-curl.png', 'cat-dead.png', 'cat-happy.png', 'cat-mad.png', 'cat-sad.png', 'cat-sick.png', 'cat-walk1.png', 'cat-walk2.png', 'cat-walk1-right.png', 'cat-walk2-right.png', 'poop.png', 'poop1.png', 'poop2.png', 'poop3.png'];
     cx = 64;
-    cy = 0;
+    cy = 8;
     cwx = 32;
     step = 16;
     px = 188;
@@ -89,13 +89,14 @@
       return sitIfNeeded(cx, cb);
     };
     sitLeftIfNeeded = function(cb) {
-      return sitIfNeeded(0, cb);
+      return sitIfNeeded(-16, cb);
     };
     sitRightIfNeeded = function(cb) {
       return sitIfNeeded(128, cb);
     };
     sitIfNeeded = function(x, cb) {
       if (window.bb.petme) {
+        window.bb.petme = false;
         console.log('pet the cat');
         ctx.clear();
         ctx.drawImage(images['cat-happy.png'], x, cy);
