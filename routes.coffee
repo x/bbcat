@@ -1,7 +1,50 @@
 module.exports = (app, models)->
   app.get '/', (req, res)->
     res.render('index.jade')
+ 
+  app.post '/feed', (req, res)->
+    name = req.body.pet.name
+    now = new Date()
+    models.pets.findOne name: name, (err, doc)->
+      unless err?
+        doc.lastFedAt = now
+        doc.update()
+        doc.save(err)->
+          unless err?
+            res.send doc
 
+  app.post '/heal', (req, res)->
+    name = req.body.pet.name
+    now = new Date()
+    models.pets.findOne name: name, (err, doc)->
+      unless err?
+        doc.updateHealth()
+        doc.save(err)->
+          unless err?
+            res.send doc
+
+  app.post '/clean', (req, res)->
+    name = req.body.pet.name
+    now = new Date()
+    models.pets.findOne name: name, (err, doc)->
+      unless err?
+        doc.lastCleanAt = now
+        doc.update()
+        doc.save(err)->
+          unless err?
+            res.send doc
+
+  app.post '/play', (req, res)->
+    name = req.body.pet.name
+    now = new Date()
+    models.pets.findOne name: name, (err, doc)->
+      unless err?
+        doc.lastPetAt = now
+        doc.update()
+        doc.save(err)->
+          unless err?
+            res.send doc
+  
   app.get '/new/:name', (req, res)->
     models.pets.findOne name: req.params.name, (err, doc)->
       if err?
