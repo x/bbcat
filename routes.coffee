@@ -47,7 +47,7 @@ module.exports = (app, models)->
           unless err?
             res.send doc
   
-  app.post '/new/:name', (req, res)->
+  app.post '/new', (req, res)->
     models.pets.findOne name: req.body.name, (err, doc)->
       if err?
         throw err
