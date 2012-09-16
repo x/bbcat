@@ -83,3 +83,7 @@ module.exports = (app, models)->
         doc.update()
         datelessCat = doc.datelessModel()
         res.render('pet.jade', pet: JSON.stringify(datelessCat))
+
+  app.get '*', (req, res)->
+    res.status(404)
+    res.render('404.jade')
