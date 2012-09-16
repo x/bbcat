@@ -17,7 +17,7 @@ app.use((req, res, next) ->
       next()
     else
       url = 'http://www.bbcat.co' + req.url
-      util.log("Redirecting to " + url)
+      #util.log("Redirecting to " + url)
       res.redirect(url)
   else
     next()
