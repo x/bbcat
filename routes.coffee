@@ -47,8 +47,8 @@ module.exports = (app, models)->
           unless err?
             res.send doc
   
-  app.get '/new/:name', (req, res)->
-    models.pets.findOne name: req.params.name, (err, doc)->
+  app.post '/new/:name', (req, res)->
+    models.pets.findOne name: req.body.name, (err, doc)->
       if err?
         throw err
       else if doc?
@@ -56,7 +56,7 @@ module.exports = (app, models)->
       else
         now = new Date()
         newPet = new models.pets
-          name: req.params.name
+          name: req.body.name
           birthday: now
           lastCheckAt: now
           lastPoopAt: now
@@ -70,7 +70,7 @@ module.exports = (app, models)->
               data: err
             throw err
           else
-            res.redirect("/c/#{req.params.name}")
+            res.redirect("/c/#{req.body.name}")
     
   app.get '/c/:catName', (req, res)->
     catName = req.params.catName
