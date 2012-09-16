@@ -2,7 +2,6 @@
 (function() {
 
   $(function() {
-    console.log(window);
     window.bb.emotion = function() {
       var happy, health;
       health = window.bb.pet.health;

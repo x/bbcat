@@ -58,7 +58,7 @@ module.exports = (app, mongoose)->
 
     updateHealth: (timeSincePoop)->
       unless @poop
-        health = 100
+        @health = 100
     
     updateHappy: (timeSincePet)->
       fedSadness = 100 - @hunger
