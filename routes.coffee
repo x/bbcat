@@ -77,8 +77,9 @@ module.exports = (app, models)->
   app.get '/c/:catName', (req, res)->
     catName = req.params.catName
     models.pets.findOne name: catName, (err, doc)->
-      if err?
-        res.send(404, 'yo cat aint here')
+      if err? || !doc
+        res.status(404)
+        res.render('404.jade')
       else
         doc.update()
         datelessCat = doc.datelessModel()
