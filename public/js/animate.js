@@ -2,13 +2,15 @@
 (function() {
 
   $(function() {
-    var canvas, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, images, loadImages, pace, sitCenter, sitCenterFor, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
+    var canvas, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, images, loadImages, pace, paceOnLeft, poopCycle, px, py, sitCenter, sitCenterFor, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
     domain = "" + document.location.origin + "/public/img/";
-    sources = ['cat.png', 'cat-curl-z1.png', 'cat-curl-z2.png', 'cat-curl-z3.png', 'cat-curl.png', 'cat-dead.png', 'cat-happy.png', 'cat-mad.png', 'cat-sad.png', 'cat-sick.png', 'cat-walk1.png', 'cat-walk2.png', 'cat-walk1-right.png', 'cat-walk2-right.png'];
+    sources = ['cat.png', 'cat-curl-z1.png', 'cat-curl-z2.png', 'cat-curl-z3.png', 'cat-curl.png', 'cat-dead.png', 'cat-happy.png', 'cat-mad.png', 'cat-sad.png', 'cat-sick.png', 'cat-walk1.png', 'cat-walk2.png', 'cat-walk1-right.png', 'cat-walk2-right.png', 'poop.png', 'poop1.png', 'poop2.png', 'poop3.png'];
     cx = 64;
     cy = 0;
     cwx = 32;
     step = 16;
+    px = 188;
+    py = 56;
     frame = 750;
     delay = function(ms, cb) {
       return setTimeout(cb, ms);
@@ -16,6 +18,7 @@
     delayInterval = function(ms, cb) {
       return setInterval(cb, ms);
     };
+    images = {};
     loadImages = function(sources, images, cb) {
       var loadedImages, numImages, src, _i, _j, _len, _len1, _results;
       loadedImages = 0;
@@ -42,9 +45,11 @@
     canvas.height = 128;
     ctx = canvas.getContext('2d');
     ctx.clear = function() {
-      return ctx.clearRect(0, 0, 256, 128);
+      ctx.clearRect(0, 0, 256, 128);
+      if (window.bb.pet.poop) {
+        return ctx.drawImage(images['poop.png'], px, py);
+      }
     };
-    images = {};
     sitCenterFor = function(count, cb) {
       ctx.clear();
       console.log('sitting cat');
@@ -139,6 +144,16 @@
         });
       });
     };
+    paceOnLeft = function(cb) {
+      console.log('pacing from center to left to center');
+      return walkCenterToLeft(function() {
+        return walkLeftToCenter(function() {
+          return walkCenterToLeft(function() {
+            return walkLeftToCenter(cb);
+          });
+        });
+      });
+    };
     zzz = function(cb) {
       console.log('zzz');
       ctx.clear();
@@ -183,9 +198,19 @@
         });
       });
     };
+    poopCycle = function() {
+      ctx.clear();
+      return sitCenterFor(5, function() {
+        return paceOnLeft(function() {
+          return sitCenterFor(5, function() {
+            return sleep(poopCycle);
+          });
+        });
+      });
+    };
     return loadImages(sources, images, function() {
       console.log('images loaded');
-      cycle();
+      poopCycle();
       return console.log('done');
     });
   });

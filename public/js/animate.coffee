@@ -15,17 +15,25 @@ $ ->
     'cat-walk2.png'
     'cat-walk1-right.png'
     'cat-walk2-right.png'
+    'poop.png'
+    'poop1.png'
+    'poop2.png'
+    'poop3.png'
   ]
   cx = 64
   cy = 0
   cwx = 32
   step = 16
 
+  px = 188
+  py = 56
+
   frame = 750
 
   delay = (ms, cb)-> setTimeout(cb, ms)
   delayInterval = (ms, cb)-> setInterval(cb, ms)
 
+  images = {}
   loadImages = (sources, images, cb)->
     loadedImages = 0
     numImages = 0
@@ -43,9 +51,11 @@ $ ->
   canvas.height = 128
   
   ctx = canvas.getContext('2d')
-  ctx.clear = -> ctx.clearRect(0, 0, 256, 128)
   
-  images = {}
+  ctx.clear = -> 
+    ctx.clearRect(0, 0, 256, 128)
+    if window.bb.pet.poop
+      ctx.drawImage(images['poop.png'], px, py)
   
   sitCenterFor = (count, cb)->
     ctx.clear()
@@ -126,6 +136,13 @@ $ ->
         walkCenterToRight ->
           walkRightToCenter cb
 
+  paceOnLeft = (cb)->
+    console.log 'pacing from center to left to center'
+    walkCenterToLeft ->
+      walkLeftToCenter ->
+        walkCenterToLeft ->
+          walkLeftToCenter cb
+
   zzz = (cb)->
     console.log 'zzz'
     ctx.clear()
@@ -161,7 +178,14 @@ $ ->
         sitCenterFor 5, ->
           sleep cycle
 
+  poopCycle = ->
+    ctx.clear()
+    sitCenterFor 5, ->
+      paceOnLeft ->
+        sitCenterFor 5, ->
+          sleep poopCycle
+
   loadImages sources, images, ->
     console.log 'images loaded'
-    cycle()
+    poopCycle()
     console.log 'done'
