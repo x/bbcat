@@ -21,6 +21,19 @@ module.exports = (app, mongoose)->
   
   msInDay = 86400000
   petSchema.methods = 
+    datelessModel: ->
+      now = new Date()
+      that = this
+      newModel =
+        name: that.name
+        daysOld: that.daysOld()
+        health: that.health
+        hunger: that.hunger
+        happy: that.happy
+        poop: that.poop
+      console.log newModel
+      return newModel
+    
     daysOld: ->
       now = new Date()
       Math.floor((now - @birthday)/msInDay)

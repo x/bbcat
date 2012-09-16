@@ -1,8 +1,10 @@
 extends layout
 block content
   script(type='text/javascript')
-    window.bb = {}
-    window.bb = #{pet}
+    $(function(){
+      window.bb = {};
+      window.bb.pet = !{pet}
+    });
   script(src='/public/js/animate.js')
   #display
     #grid

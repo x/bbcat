@@ -34,7 +34,13 @@ header {
     height: 128px; }
     #display #grid canvas#pet {
       width: 256px;
-      height: 128px; }
+      height: 128px;
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: optimize-contrast;
+      -ms-interpolation-mode: nearest-neighbor;
+      imageSmoothingEnabled: false; }
 
 .control {
   margin-top: 20px;

@@ -34,4 +34,5 @@ module.exports = (app, models)->
         res.send(404, 'yo cat aint here')
       else
         doc.update()
-        res.render('pet.jade', pet: doc)
+        datelessCat = doc.datelessModel()
+        res.render('pet.jade', pet: JSON.stringify(datelessCat))
