@@ -45,17 +45,17 @@
       return ctx.clearRect(0, 0, 256, 128);
     };
     images = {};
-    sitCenter = function(cb) {
-      ctx.clear();
-      console.log('sitting cat');
-      ctx.drawImage(images['cat.png'], cx, cy);
-      return delay(frame, cb);
-    };
     sitCenterFor = function(count, cb) {
       ctx.clear();
       console.log('sitting cat');
       ctx.drawImage(images['cat.png'], cx, cy);
       return delay(count * frame, cb);
+    };
+    sitCenter = function(cb) {
+      ctx.clear();
+      console.log('sitting cat');
+      ctx.drawImage(images['cat.png'], cx, cy);
+      return delay(frame, cb);
     };
     walkCenterToLeft = function(cb) {
       console.log('walking center to left');
@@ -173,21 +173,20 @@
         });
       });
     };
-    cycle = function(cb) {
+    cycle = function() {
       ctx.clear();
       return sitCenterFor(5, function() {
         return pace(function() {
           return sitCenterFor(5, function() {
-            return sleep(function() {});
+            return sleep(cycle);
           });
         });
       });
     };
     return loadImages(sources, images, function() {
       console.log('images loaded');
-      return cycle(function() {
-        return console.log('done');
-      });
+      cycle();
+      return console.log('done');
     });
   });
 
