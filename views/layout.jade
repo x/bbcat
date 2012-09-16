@@ -1,9 +1,10 @@
 !!!
 head
+  title bbcat
   link(rel='stylesheet', href='/public/css/foundation/stylesheets/foundation.css')
-  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lemon')
+  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Lemon|Oswald')
   link(rel='stylesheet', href='/public/css/app.css')
-  script(src='/public/js/foundation.min.js')
+  script(src='/public/css/foundation/javascripts/foundation.min.js')
   script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js')
   meta(name='viewport', content='user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0')
 body
@@ -13,10 +14,11 @@ body
         h1
           a(href='/') bbcat
       block content
-  .row
-    .six.columns.centered(style='text-align: right;')
-      | by 
-      a(href='http://www.processthings.com') Dan Mundy 
-      br
-      | and 
-      a(href='http://twitter.com/dproi') Devon Peticolas.
+  footer
+    .row
+      .six.columns.centered(style='text-align: right;')
+        | by 
+        a(href='http://www.processthings.com') Dan Mundy 
+        br
+        | and 
+        a(href='http://twitter.com/dproi') Devon Peticolas.

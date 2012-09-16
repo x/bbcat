@@ -21,6 +21,15 @@ header {
     }
 }
 
+footer {
+    clear: both;
+    margin-top: 20px;
+}
+
+.right {
+    float: right;
+}
+
 .six.columns.centered {
     width: 320px !important;
 }
@@ -83,9 +92,20 @@ header {
     }
 }
 
+.bold {
+    border-width: 3px !important;
+}
+
+.button {
+    background-image: url('../img/noise.png');
+
+    &.bold {
+        box-shadow: 0 2px 0 rgba(255, 255, 255, 0.5) inset;
+    }
+}
+
 .control {
     margin-top: 20px;
-    margin-bottom: 30px;
     text-align: center;
 
     .button {
@@ -93,11 +113,14 @@ header {
         height: 50px;
         width: 50px;
         border: {
-            width: 3px;
             radius: 30px;
         }
-        box-shadow: 0 2px 0 rgba(255, 255, 255, 0.5) inset;
-        background-image: url('../img/noise.png');
+    }
+
+    label {
+        margin-bottom: 5px;
+        font-family: Oswald;
+        font-size: 16px;
     }
 }
 
