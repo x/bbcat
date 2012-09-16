@@ -22,7 +22,7 @@ $ ->
   window.bb.heartUpdate = ->
     health = window.bb.pet.health
     heartCount = Math.round(health/20)
-    console.log "pet has #{heartCount} fish now"
+    console.log "pet has #{heartCount} hearts now"
     $('.heart').each (i, elem)->
       if i < heartCount
         $(elem).addClass('active')

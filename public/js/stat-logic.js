@@ -31,7 +31,7 @@
       var health, heartCount;
       health = window.bb.pet.health;
       heartCount = Math.round(health / 20);
-      console.log("pet has " + heartCount + " fish now");
+      console.log("pet has " + heartCount + " hearts now");
       return $('.heart').each(function(i, elem) {
         if (i < heartCount) {
           return $(elem).addClass('active');

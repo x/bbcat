@@ -2,7 +2,7 @@
 (function() {
 
   $(function() {
-    var canvas, chooseCycle, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, images, loadImages, pace, paceOnLeft, poopCycle, px, py, sitCenter, sitCenterFor, sitCenterIfNeeded, sitIfNeeded, sitLeftIfNeeded, sitRightIfNeeded, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
+    var canvas, chooseCycle, ctx, cwx, cx, cy, cycle, delay, delayInterval, domain, frame, getCoords, images, loadImages, moveEventFunction, pace, paceOnLeft, poopCycle, px, py, sitCenter, sitCenterFor, sitCenterIfNeeded, sitIfNeeded, sitLeftIfNeeded, sitRightIfNeeded, sleep, sources, step, walkCenterToLeft, walkCenterToRight, walkLeftToCenter, walkRightToCenter, zzz;
     if (window.DeviceMotionEvent) {
       console.log('this browser supports devicemotion');
       window.addEventListener('devicemotion', function(event) {
@@ -60,6 +60,35 @@
     canvas = document.getElementById('pet');
     canvas.width = 256;
     canvas.height = 128;
+    getCoords = function(e) {
+      if (e.offsetX) {
+        return {
+          x: e.offsetX,
+          y: e.offsetY
+        };
+      } else {
+        return {
+          x: e.pageX - cb_canvas.offsetLeft,
+          y: e.pageY - cb_canvas.offsetTop
+        };
+      }
+    };
+    moveEventFunction = function(e) {
+      var i, _i, _len, _ref, _results;
+      if (e.touches) {
+        _ref = e.touches.length;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          i = _ref[_i];
+          _results.push(window.bb.p = getCoords(e.touches[i - 1]));
+        }
+        return _results;
+      } else {
+        return window.bb.p = getCoords(e);
+      }
+    };
+    canvas.ontouchmove = moveEventFunction;
+    canvas.onmousemove = moveEventFunction;
     ctx = canvas.getContext('2d');
     ctx.clear = function() {
       ctx.clearRect(0, 0, 256, 128);
@@ -92,10 +121,15 @@
       return sitIfNeeded(0, cb);
     };
     sitRightIfNeeded = function(cb) {
-      return sitIfNeeded(198, cb);
+      return sitIfNeeded(128, cb);
     };
     sitIfNeeded = function(x, cb) {
-      if (window.bb.isAngry) {
+      if (Math.abs(window.bb.p.x - x + 32) < 128) {
+        console.log('pet the cat');
+        ctx.clear();
+        ctx.drawImage(images['cat-happy.png'], x, cy);
+        return delay(frame, cb);
+      } else if (window.bb.isAngry) {
         ctx.clear();
         console.log('cat is angry');
         ctx.drawImage(images['cat-mad.png'], x, cy);
@@ -224,7 +258,7 @@
                   ctx.clear();
                   ctx.drawImage(images['cat-curl.png'], cx, cy);
                   return delay(frame, function() {
-                    return setCenterIfNeeded(cb);
+                    return sitCenterIfNeeded(cb);
                   });
                 });
               });
