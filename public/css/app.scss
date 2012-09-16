@@ -44,8 +44,13 @@ header {
     #grid {
         margin: 60px auto 0px auto;
         background-image: url('../img/grid.png');
-        width: 255px;
-        height: 127px;
+        width: 256px;
+        height: 128px;
+		
+		canvas#pet {
+			width: 256px;
+			height: 128px;
+		}
     }
 }
 

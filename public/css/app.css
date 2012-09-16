@@ -30,8 +30,11 @@ header {
   #display #grid {
     margin: 60px auto 0px auto;
     background-image: url("../img/grid.png");
-    width: 255px;
-    height: 127px; }
+    width: 256px;
+    height: 128px; }
+    #display #grid canvas#pet {
+      width: 256px;
+      height: 128px; }
 
 .control {
   margin-top: 20px;
